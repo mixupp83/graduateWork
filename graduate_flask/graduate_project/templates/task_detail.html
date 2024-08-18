@@ -1,0 +1,4 @@
+<h1>{{ task.title }}</h1>
+<p>{{ task.description }}</p>
+<p>Completed: {{ task.completed }}</p>
+<a href="{{ url_for('task_edit', task_id=task.id) }}">Edit</a>
