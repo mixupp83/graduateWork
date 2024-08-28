@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список задач</title>
+</head>
+<body>
+    <h1>Список задач</h1>
+    <ul>
+        {% for task in tasks %}
+            <li>
+                <strong>{{ task.title }}</strong><br>
+                {{ task.description }}<br>
+                Выполнено: <input type="checkbox" {% if task.completed %}checked{% endif %} disabled>
+            </li>
+        {% endfor %}
+    </ul>
+    <h2>Добавить новую задачу</h2>
+    <form action="/" method="post">
+        <label for="title">Заголовок:</label>
+        <input type="text" id="title" name="title" required><br><br>
+        <label for="description">Описание:</label>
+        <textarea id="description" name="description" required></textarea><br><br>
+        <input type="submit" value="Добавить задачу">
+    </form>
+</body>
+</html>
