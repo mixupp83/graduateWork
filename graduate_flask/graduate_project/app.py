@@ -17,12 +17,12 @@ class Task(db.Model):
 @app.route('/')
 def task_list():
     tasks = Task.query.all()
-    return render_template('task_list.html', tasks=tasks)
+    return render_template('article_list.html', tasks=tasks)
 
 @app.route('/task/<int:task_id>')
 def task_detail(task_id):
     task = Task.query.get_or_404(task_id)
-    return render_template('task_detail.html', task=task)
+    return render_template('article_detail.html', task=task)
 
 @app.route('/task/new', methods=['GET', 'POST'])
 def task_new():
@@ -34,7 +34,7 @@ def task_new():
         db.session.add(new_task)
         db.session.commit()
         return redirect(url_for('task_detail', task_id=new_task.id))
-    return render_template('task_edit.html')
+    return render_template('article_edit.html')
 
 @app.route('/task/<int:task_id>/edit', methods=['GET', 'POST'])
 def task_edit(task_id):
@@ -45,7 +45,7 @@ def task_edit(task_id):
         task.completed = 'completed' in request.form
         db.session.commit()
         return redirect(url_for('task_detail', task_id=task.id))
-    return render_template('task_edit.html', task=task)
+    return render_template('article_edit.html', task=task)
 
 if __name__ == '__main__':
     with app.app_context():

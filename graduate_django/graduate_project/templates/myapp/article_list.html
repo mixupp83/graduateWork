@@ -1,0 +1,16 @@
+{% extends 'myapp/base.html' %}
+
+{% block title %}Список статей{% endblock %}
+
+{% block content %}
+    <h2>Список статей</h2>
+    <ul>
+        {% for article in articles %}
+            <li>
+                <a href="{% url 'article_detail' article.pk %}">{{ article.title }}</a>
+                <a href="{% url 'article_edit' article.pk %}">Редактировать</a>
+                <a href="{% url 'article_delete' article.pk %}">Удалить</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

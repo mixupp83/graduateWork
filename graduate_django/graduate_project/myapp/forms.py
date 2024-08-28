@@ -1,7 +1,7 @@
 from django import forms
-from .models import Task
+from .models import Article
 
-class TaskForm(forms.ModelForm):
+class ArticleForm(forms.ModelForm):
     class Meta:
-        model = Task
-        fields = ['title', 'description', 'completed']
+        model = Article
+        fields = ['title', 'content']

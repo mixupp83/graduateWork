@@ -1,34 +1,41 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Task
-from .forms import TaskForm
+from .models import Article
+from .forms import ArticleForm
 
-def task_list(request):
-    tasks = Task.objects.all()
-    return render(request, 'myapp/task_list.html', {'tasks': tasks})
+def article_list(request):
+    articles = Article.objects.all()
+    return render(request, 'myapp/article_list.html', {'articles': articles})
 
-def task_detail(request, pk):
-    task = get_object_or_404(Task, pk=pk)
-    return render(request, 'myapp/task_detail.html', {'task': task})
+def article_detail(request, pk):
+    article = get_object_or_404(Article, pk=pk)
+    return render(request, 'myapp/article_detail.html', {'article': article})
 
-def task_new(request):
+def article_new(request):
     if request.method == "POST":
-        form = TaskForm(request.POST)
+        form = ArticleForm(request.POST)
         if form.is_valid():
-            task = form.save(commit=False)
-            task.save()
-            return redirect('task_detail', pk=task.pk)
+            article = form.save(commit=False)
+            article.save()
+            return redirect('article_detail', pk=article.pk)
     else:
-        form = TaskForm()
-    return render(request, 'myapp/task_edit.html', {'form': form})
+        form = ArticleForm()
+    return render(request, 'myapp/article_edit.html', {'form': form})
 
-def task_edit(request, pk):
-    task = get_object_or_404(Task, pk=pk)
+def article_edit(request, pk):
+    article = get_object_or_404(Article, pk=pk)
     if request.method == "POST":
-        form = TaskForm(request.POST, instance=task)
+        form = ArticleForm(request.POST, instance=article)
         if form.is_valid():
-            task = form.save(commit=False)
-            task.save()
-            return redirect('task_detail', pk=task.pk)
+            article = form.save(commit=False)
+            article.save()
+            return redirect('article_detail', pk=article.pk)
     else:
-        form = TaskForm(instance=task)
-    return render(request, 'myapp/task_edit.html', {'form': form})
+        form = ArticleForm(instance=article)
+    return render(request, 'myapp/article_edit.html', {'form': form})
+
+def article_delete(request, pk):
+    article = get_object_or_404(Article, pk=pk)
+    if request.method == "POST":
+        article.delete()
+        return redirect('article_list')
+    return render(request, 'myapp/article_confirm_delete.html', {'article': article})

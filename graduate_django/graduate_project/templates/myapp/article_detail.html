@@ -1,0 +1,12 @@
+{% extends 'myapp/base.html' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block content %}
+    <h2>{{ article.title }}</h2>
+    <p>{{ article.content }}</p>
+    <p>Опубликовано: {{ article.pub_date }}</p>
+    <a href="{% url 'article_edit' article.pk %}">Редактировать</a>
+    <a href="{% url 'article_delete' article.pk %}">Удалить</a>
+    <a href="{% url 'article_list' %}">Вернуться к списку</a>
+{% endblock %}
