@@ -12,7 +12,15 @@
             <li>
                 <strong>{{ task.title }}</strong><br>
                 {{ task.description }}<br>
-                Выполнено: <input type="checkbox" {% if task.completed %}checked{% endif %} disabled>
+                Выполнено:
+                <input type="checkbox" name="completed" {% if task.completed %}checked{% endif %} disabled>
+                <form action="/tasks/{{ task.id }}/update" method="post" style="display:inline;">
+                    <input type="hidden" name="completed" value="true">
+                    <input type="submit" value="Выполнено">
+                </form>
+                <form action="/tasks/{{ task.id }}/delete" method="post" style="display:inline;">
+                    <input type="submit" value="Удалить">
+                </form>
             </li>
         {% endfor %}
     </ul>

@@ -74,21 +74,17 @@ async def create_task(request: Request):
     last_record_id = await database.execute(query)
     return {"id": last_record_id, "title": title, "description": description, "completed": completed}
 
-@app.put("/tasks/{task_id}")
-async def update_task(task_id: int, request: Request):
+@app.post("/tasks/{task_id}/update")
+async def update_task_status(task_id: int, request: Request):
     form = await request.form()
-    title = form["title"]
-    description = form["description"]
-    completed = form.get("completed", "false").lower() == "true"
+    completed = "completed" in form
     query = Task.__table__.update().where(Task.id == task_id).values(
-        title=title,
-        description=description,
         completed=completed
     )
     await database.execute(query)
-    return {"message": "Task updated successfully"}
+    return {"message": "Task status updated successfully"}
 
-@app.delete("/tasks/{task_id}")
+@app.post("/tasks/{task_id}/delete")
 async def delete_task(task_id: int):
     query = Task.__table__.delete().where(Task.id == task_id)
     await database.execute(query)
