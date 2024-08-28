@@ -1,10 +1,20 @@
-<h1>{% if task %}Edit Task{% else %}New Task{% endif %}</h1>
-<form method="POST">
-    <label for="title">Title</label>
-    <input type="text" id="title" name="title" value="{% if task %}{{ task.title }}{% endif %}" required>
-    <label for="description">Description</label>
-    <textarea id="description" name="description" required>{% if task %}{{ task.description }}{% endif %}</textarea>
-    <label for="completed">Completed</label>
-    <input type="checkbox" id="completed" name="completed" {% if task and task.completed %}checked{% endif %}>
-    <button type="submit">Save</button>
-</form>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать задачу</title>
+</head>
+<body>
+    <h1>Редактировать задачу</h1>
+    <form method="POST">
+        <label for="title">Заголовок:</label>
+        <input type="text" id="title" name="title" value="{{ task.title if task else '' }}" required><br><br>
+        <label for="description">Описание:</label>
+        <textarea id="description" name="description" required>{{ task.description if task else '' }}</textarea><br><br>
+        <label for="completed">Выполнено:</label>
+        <input type="checkbox" id="completed" name="completed" {{ 'checked' if task and task.completed else '' }}><br><br>
+        <button type="submit">Сохранить</button>
+    </form>
+    <a href="{{ url_for('task_list') }}">Вернуться к списку</a>
+</body>
+</html>

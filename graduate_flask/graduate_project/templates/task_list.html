@@ -1,7 +1,26 @@
-<h1>Task List</h1>
-<a href="{{ url_for('task_new') }}">New Task</a>
-<ul>
-    {% for task in tasks %}
-        <li><a href="{{ url_for('task_detail', task_id=task.id) }}">{{ task.title }}</a></li>
-    {% endfor %}
-</ul>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Список задач</title>
+</head>
+<body>
+    <h1>Список задач</h1>
+    <a href="{{ url_for('task_new') }}">Новая задача</a>
+    <ul>
+        {% for task in tasks %}
+            <li>
+                <a href="{{ url_for('task_detail', task_id=task.id) }}">{{ task.title }}</a>
+                <a href="{{ url_for('task_edit', task_id=task.id) }}">Редактировать</a>
+                <form action="{{ url_for('task_complete', task_id=task.id) }}" method="POST" style="display:inline;">
+                    <label for="completed_{{ task.id }}">Выполнено:</label>
+                    <input type="checkbox" id="completed_{{ task.id }}" name="completed" onchange="this.form.submit()" {{ 'checked' if task.completed else '' }}>
+                </form>
+                <form action="{{ url_for('task_delete', task_id=task.id) }}" method="POST" style="display:inline;">
+                    <button type="submit">Удалить</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
