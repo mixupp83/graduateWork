@@ -79,4 +79,3 @@ FastAPI Documentation. https://fastapi.tiangolo.com/
 "Choosing the Right Python Web Framework" - Article by Real Python.
     Приложение:
         Исходный код разработанных приложений на Django, Flask и FastAPI.
-        Тестовые результаты и сравнительные таблицы.
