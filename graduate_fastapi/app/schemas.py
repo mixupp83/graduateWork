@@ -1,4 +1,3 @@
-# schemas.py
 from pydantic import BaseModel
 
 class BookBase(BaseModel):
@@ -9,11 +8,8 @@ class BookBase(BaseModel):
 class BookCreate(BookBase):
     pass
 
-class BookUpdate(BookBase):
-    pass
-
 class Book(BookBase):
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
