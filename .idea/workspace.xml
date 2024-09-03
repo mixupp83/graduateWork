@@ -5,12 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0766e28a-9953-4d85-8c2c-329e819e3c3a" name="Changes" comment=".">
-      <change afterPath="$PROJECT_DIR$/graduate_django/graduate_project/static/style.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/graduate_django/graduate_project/templates/myapp/menu.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contents1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/contents1.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graduate_django/graduate_project/graduate_project/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/graduate_django/graduate_project/graduate_project/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graduate_django/graduate_project/graduate_project/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/graduate_django/graduate_project/graduate_project/urls.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,9 +20,15 @@
       </list>
     </option>
   </component>
+  <component name="Git.Merge.Settings">
+    <option name="BRANCH" value="origin/main" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {}
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 7
@@ -178,6 +179,17 @@
     </task>
     <option name="localTasksCounter" value="14" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="17/08 Дипломная работа. Подключение Github" />
