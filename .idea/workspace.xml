@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0766e28a-9953-4d85-8c2c-329e819e3c3a" name="Changes" comment="" />
+    <list default="true" id="0766e28a-9953-4d85-8c2c-329e819e3c3a" name="Changes" comment="." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -27,6 +27,12 @@
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {}
 }</component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/mixupp83/graduateWork.git",
+    "accountId": "67b8983a-795a-489d-a74d-8459ef72afe3"
+  }
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 7
@@ -199,6 +205,6 @@
     <MESSAGE value="18/08 Добавлены файлы к проекту диплома на Flask" />
     <MESSAGE value="18/08 Добавлены файлы к проекту диплома на Fast API" />
     <MESSAGE value="." />
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <option name="LAST_COMMIT_MESSAGE" value="." />
   </component>
 </project>
