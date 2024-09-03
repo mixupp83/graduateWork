@@ -38,12 +38,114 @@ FastAPI. Целью работы является анализ и сравнен
 4. Разработка приложений
 
 * [Django](https://github.com/mixupp83/graduateWork/tree/master/graduate_django/graduate_project)
-  * Описание проекта: 
-    * Создание простого блога с функционалом добавления, редактирования и удаления статей.
-  * Технические детали: 
-    * Использование Django ORM для работы с базой данных.
-    * Разработка моделей, представлений и шаблонов.
-    * Настройка маршрутов и URL-адресов.
+
+*Описание проекта:* 
+
+Создание простого блога с функционалом добавления, редактирования и удаления статей.
+
+Проект представляет собой простой блог, разработанный с использованием фреймворка Django. Основные функции включают 
+создание, редактирование, просмотр и удаление статей. Приложение также включает административный интерфейс для 
+управления контентом.
+
+Структура проекта:
+
+Проект состоит из следующих основных компонентов:
+* Модели (models.py): Определение модели Article, которая содержит поля title, content и pub_date.
+```python
+class Article(models.Model):
+    title = models.CharField(max_length=200, verbose_name='Наименование')
+    content = models.TextField(verbose_name='Содержание (контент)')
+    pub_date = models.DateTimeField(default=timezone.now, verbose_name='Дата публикации')
+
+    def __str__(self):
+        return self.title
+```
+
+Формы (forms.py): Определение формы ArticleForm для создания и редактирования статей.
+
+Представления (views.py): Обработка запросов и управление логикой приложения.
+
+Шаблоны (templates/myapp): HTML-шаблоны для отображения списка статей, деталей статьи, формы редактирования и подтверждения удаления.
+
+Административная панель (admin.py): Настройка административного интерфейса для управления статьями.
+
+Детали реализации
+Модели (models.py)
+Модель Article содержит следующие поля:
+
+title: Заголовок статьи (CharField).
+
+content: Содержание статьи (TextField).
+
+pub_date: Дата публикации статьи (DateTimeField).
+
+Формы (forms.py)
+Форма ArticleForm используется для создания и редактирования статей. Она наследуется от forms.ModelForm и определяет модель Article и поля title и content.
+
+Представления (views.py)
+article_list: Отображает список всех статей.
+
+article_detail: Отображает детали конкретной статьи.
+
+article_new: Создает новую статью.
+
+article_edit: Редактирует существующую статью.
+
+article_delete: Удаляет статью после подтверждения.
+
+Шаблоны (templates/myapp)
+article_list.html: Отображает список всех статей.
+
+article_detail.html: Отображает детали конкретной статьи.
+
+article_edit.html: Форма для создания и редактирования статей.
+
+article_confirm_delete.html: Форма подтверждения удаления статьи.
+
+Административная панель (admin.py)
+Настроена административная панель для управления статьями. Определен класс ArticleAdmin, который настраивает отображение списка статей, фильтрацию по дате публикации и поиск по заголовку и содержанию.
+
+Установка и запуск
+Установите зависимости:
+
+bash
+Copy code
+pip install -r requirements.txt
+Примените миграции:
+
+bash
+Copy code
+python manage.py migrate
+Создайте суперпользователя:
+
+bash
+Copy code
+python manage.py createsuperuser
+Запустите сервер:
+
+bash
+Copy code
+python manage.py runserver
+Откройте браузер и перейдите по адресу http://127.0.0.1:8000/ для просмотра блога.
+
+Примеры работы
+Список статей
+Список статей
+
+Детали статьи
+Детали статьи
+
+Форма редактирования статьи
+Форма редактирования статьи
+
+Форма подтверждения удаления статьи
+Форма подтверждения удаления статьи
+
+Личный кабинет
+Для добавления функционала личного кабинета можно использовать встроенные механизмы аутентификации Django. Создайте представления и шаблоны для регистрации, входа и управления профилем пользователя.
+
+Презентабельный и удобный интерфейс
+Для улучшения пользовательского опыта можно использовать современные фронтенд-технологии и фреймворки, такие как Bootstrap или Tailwind CSS. Добавьте стили и JavaScript для улучшения внешнего вида и функциональности интерфейса.
 * [Flask](https://github.com/mixupp83/graduateWork/tree/master/graduate_flask)
   * Описание проекта: 
     * Создание простого API для управления списком задач.
@@ -90,12 +192,14 @@ __6. Заключение__
 
 __7. Список литературы__
 
-Django Documentation. https://docs.djangoproject.com/
-Flask Documentation. https://flask.palletsprojects.com/
-FastAPI Documentation. https://fastapi.tiangolo.com/
-"Django vs Flask vs FastAPI: A Comprehensive Comparison" - Blog post by Towards Data Science.
-"Choosing the Right Python Web Framework" - Article by Real Python.
+* [Django Documentation.](https://docs.djangoproject.com/)
+* [Flask Documentation.](https://flask.palletsprojects.com/)
+* [FastAPI Documentation.](https://fastapi.tiangolo.com/)
+* "Django vs Flask vs FastAPI: A Comprehensive Comparison" - Blog post by Towards Data Science.
+* "Choosing the Right Python Web Framework" - Article by Real Python.
 
 __Приложение:__
 
-Исходный код разработанных приложений на Django, Flask и FastAPI.
+Исходный код разработанных приложений на [Django](https://github.com/mixupp83/graduateWork/tree/master/graduate_django/graduate_project),
+[Flask](https://github.com/mixupp83/graduateWork/tree/master/graduate_flask) и 
+[FastAPI](https://github.com/mixupp83/graduateWork/tree/master/graduate_fastapi)
