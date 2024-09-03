@@ -5,7 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0766e28a-9953-4d85-8c2c-329e819e3c3a" name="Changes" comment=".">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/graduate_fastapi/app/templates/book_add.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/graduate_fastapi/app/templates/book_detail.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/graduate_fastapi/app/templates/books_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graduate_fastapi/app/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/graduate_fastapi/app/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graduate_fastapi/app/templates/books.html" beforeDir="false" afterPath="$PROJECT_DIR$/graduate_fastapi/app/templates/books.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graduate_fastapi/library.db" beforeDir="false" afterPath="$PROJECT_DIR$/graduate_fastapi/library.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graduate_flask/graduate_project/instance/tasks.db" beforeDir="false" afterPath="$PROJECT_DIR$/graduate_flask/graduate_project/instance/tasks.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,7 +73,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-5a2391486177-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.13763.11" />
+        <option value="bundled-python-sdk-975db3bf15a3-31b6be0877a2-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.18034.82" />
       </set>
     </attachedChunks>
   </component>

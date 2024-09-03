@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Список книг</title>
+</head>
+<body>
+    <h1>Список книг</h1>
+    <ul>
+        {% for book in books %}
+            <li>
+                <a href="/books/{{ book.id }}">{{ book.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Добавить новую книгу</h2>
+    <form action="/books/" method="post">
+        <label for="title">Название:</label>
+        <input type="text" id="title" name="title" required><br>
+        <label for="author">Автор:</label>
+        <input type="text" id="author" name="author" required><br>
+        <label for="description">Описание:</label>
+        <input type="text" id="description" name="description" required><br>
+        <button type="submit">Добавить книгу</button>
+    </form>
+</body>
+</html>
