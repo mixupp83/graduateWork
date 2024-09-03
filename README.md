@@ -12,14 +12,14 @@ __Оглавление дипломной работы:__
 6. Заключение
 7. Список литературы
 ___
-1. Введение
+## 1. Введение
 
 В современном мире веб-разработки существует множество фреймворков, каждый из которых имеет свои особенности и
 преимущества. В данной дипломной работе будет проведено сравнение трех популярных Python-фреймворков: Django, Flask и
 FastAPI. Целью работы является анализ и сравнение этих фреймворков с точки зрения их использования для разработки простых
 веб-приложений.
 
-2. Цель и задачи
+## 2. Цель и задачи
 
   Цель работы: Провести анализ и сравнение трех Python-фреймворков (Django, Flask, FastAPI) для разработки простых веб-приложений.
 Задачи:
@@ -28,18 +28,18 @@ FastAPI. Целью работы является анализ и сравнен
 Провести сравнение фреймворков по различным критериям: производительность, простота использования, гибкость, документация и сообщество.
 Сделать выводы о наиболее подходящем фреймворке для различных типов проектов.
 
-3. Методология
+## 3. Методология
 
 Исследование литературы и ресурсов: Изучение документации, статей, блогов и других источников информации о Django, Flask и FastAPI.
 Разработка приложений: Создание простых веб-приложений с использованием каждого из фреймворков.
 Тестирование и сравнение: Проведение тестов для оценки производительности, простоты использования и других критериев.
 Анализ результатов: Сравнение результатов и формулирование выводов.
 
-4. Разработка приложений
+## 4. Разработка приложений
 
 * [Django](https://github.com/mixupp83/graduateWork/tree/master/graduate_django/graduate_project)
 
-*Описание проекта:* 
+### *Описание проекта:* 
 
 Создание простого блога с функционалом добавления, редактирования и удаления статей.
 
@@ -47,10 +47,18 @@ FastAPI. Целью работы является анализ и сравнен
 создание, редактирование, просмотр и удаление статей. Приложение также включает административный интерфейс для 
 управления контентом.
 
-Структура проекта:
+### *Структура проекта:*
 
 Проект состоит из следующих основных компонентов:
 * Модели (models.py): Определение модели Article, которая содержит поля title, content и pub_date.
+* Формы (forms.py): Определение формы ArticleForm для создания и редактирования статей.
+* Представления (views.py): Обработка запросов и управление логикой приложения.
+* Шаблоны (templates/myapp): HTML-шаблоны для отображения списка статей, деталей статьи, формы редактирования и подтверждения удаления.
+* Административная панель (admin.py): Настройка административного интерфейса для управления статьями.
+
+### *Детали реализации*
+
+*Модели (models.py)*
 ```python
 class Article(models.Model):
     title = models.CharField(max_length=200, verbose_name='Наименование')
@@ -60,50 +68,128 @@ class Article(models.Model):
     def __str__(self):
         return self.title
 ```
-
-Формы (forms.py): Определение формы ArticleForm для создания и редактирования статей.
-
-Представления (views.py): Обработка запросов и управление логикой приложения.
-
-Шаблоны (templates/myapp): HTML-шаблоны для отображения списка статей, деталей статьи, формы редактирования и подтверждения удаления.
-
-Административная панель (admin.py): Настройка административного интерфейса для управления статьями.
-
-Детали реализации
-Модели (models.py)
 Модель Article содержит следующие поля:
+* title: Заголовок статьи (CharField).
+* content: Содержание статьи (TextField).
+* pub_date: Дата публикации статьи (DateTimeField).
 
-title: Заголовок статьи (CharField).
+*Формы (forms.py)*
+```python
+class ArticleForm(forms.ModelForm):
+    class Meta:
+        model = Article
+        fields = ['title', 'content']
+```
+Форма ArticleForm используется для создания и редактирования статей. Она наследуется от forms.ModelForm и определяет 
+модель Article и поля title и content.
 
-content: Содержание статьи (TextField).
+*Представления (views.py)*
+```python
+def article_list(request):
+    articles = Article.objects.all()
+    return render(request, 'myapp/article_list.html', {'articles': articles})
 
-pub_date: Дата публикации статьи (DateTimeField).
+def article_detail(request, pk):
+    article = get_object_or_404(Article, pk=pk)
+    return render(request, 'myapp/article_detail.html', {'article': article})
 
-Формы (forms.py)
-Форма ArticleForm используется для создания и редактирования статей. Она наследуется от forms.ModelForm и определяет модель Article и поля title и content.
+def article_new(request):
+    if request.method == "POST":
+        form = ArticleForm(request.POST)
+        if form.is_valid():
+            article = form.save(commit=False)
+            article.save()
+            return redirect('article_detail', pk=article.pk)
+    else:
+        form = ArticleForm()
+    return render(request, 'myapp/article_edit.html', {'form': form})
 
-Представления (views.py)
-article_list: Отображает список всех статей.
+def article_edit(request, pk):
+    article = get_object_or_404(Article, pk=pk)
+    if request.method == "POST":
+        form = ArticleForm(request.POST, instance=article)
+        if form.is_valid():
+            article = form.save(commit=False)
+            article.save()
+            return redirect('article_detail', pk=article.pk)
+    else:
+        form = ArticleForm(instance=article)
+    return render(request, 'myapp/article_edit.html', {'form': form})
 
-article_detail: Отображает детали конкретной статьи.
+def article_delete(request, pk):
+    article = get_object_or_404(Article, pk=pk)
+    if request.method == "POST":
+        article.delete()
+        return redirect('article_list')
+    return render(request, 'myapp/article_confirm_delete.html', {'article': article})
+```
+* article_list: Отображает список всех статей.
+* article_detail: Отображает детали конкретной статьи.
+* article_new: Создает новую статью.
+* article_edit: Редактирует существующую статью.
+* article_delete: Удаляет статью после подтверждения.
 
-article_new: Создает новую статью.
-
-article_edit: Редактирует существующую статью.
-
-article_delete: Удаляет статью после подтверждения.
-
-Шаблоны (templates/myapp)
-article_list.html: Отображает список всех статей.
-
-article_detail.html: Отображает детали конкретной статьи.
-
-article_edit.html: Форма для создания и редактирования статей.
-
-article_confirm_delete.html: Форма подтверждения удаления статьи.
-
+*Шаблоны (templates/myapp)*
+* article_list.html: Отображает список всех статей.
+```html
+    <h2>Список статей</h2>
+    <ul>
+        {% for article in articles %}
+            <li>
+                <a href="{% url 'article_detail' article.pk %}">{{ article.title }}</a>
+                <a href="{% url 'article_edit' article.pk %}">Редактировать</a>
+                <a href="{% url 'article_delete' article.pk %}">Удалить</a>
+            </li>
+        {% endfor %}
+    </ul>
+```
+* article_detail.html: Отображает детали конкретной статьи.
+```html
+{% block content %}
+    <h2>{{ article.title }}</h2>
+    <p>{{ article.content }}</p>
+    <p>Опубликовано: {{ article.pub_date }}</p>
+    <a href="{% url 'article_edit' article.pk %}">Редактировать</a>
+    <a href="{% url 'article_delete' article.pk %}">Удалить</a>
+    <a href="{% url 'article_list' %}">Вернуться к списку</a>
+{% endblock %}
+```
+* article_edit.html: Форма для создания и редактирования статей.
+```html
+{% block content %}
+    <h2>Редактировать статью</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+    </form>
+    <a href="{% url 'article_list' %}">Вернуться к списку</a>
+{% endblock %}
+```
+* article_confirm_delete.html: Форма подтверждения удаления статьи.
+```html
+{% block content %}
+    <h2>Вы уверены, что хотите удалить "{{ article.title }}"?</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">Да, удалить</button>
+    </form>
+    <a href="{% url 'article_detail' article.pk %}">Отмена</a>
+{% endblock %}
+```
 Административная панель (admin.py)
-Настроена административная панель для управления статьями. Определен класс ArticleAdmin, который настраивает отображение списка статей, фильтрацию по дате публикации и поиск по заголовку и содержанию.
+```python
+class ArticleAdmin(admin.ModelAdmin):
+    list_display = ('title', 'pub_date', 'content')
+    list_filter = ('pub_date',)
+    search_fields = ('title', 'content')
+
+admin.site.register(Article, ArticleAdmin)
+```
+Настроена административная панель для управления статьями. Определен класс ArticleAdmin, который настраивает отображение
+списка статей, фильтрацию по дате публикации и поиск по заголовку и содержанию.
+
+![img.png](img.png)
 
 Установка и запуск
 Установите зависимости:
