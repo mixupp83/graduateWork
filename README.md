@@ -209,23 +209,30 @@ admin.site.register(Article, ArticleAdmin)
 ![Форма подтверждения удаления статьи](img_4.png)
 
 * [Flask](https://github.com/mixupp83/graduateWork/tree/master/graduate_flask)
-### *Описание проекта:* 
-    
+
+### *Обзор проекта*
+
 Проект представляет собой простое веб-приложение для управления списком задач (To-Do List), разработанное с использованием
-фреймворка Flask и базы данных SQLite. Основные функции включают создание, редактирование, просмотр, завершение и удаление 
+фреймворка Flask и базы данных SQLite. Основные функции включают создание, редактирование, просмотр, завершение и удаление
 задач.
 
 ### *Структура проекта*
 Проект состоит из следующих основных компонентов:
-* Модели (models.py): Определение модели Task, которая содержит поля id, title, description и completed.
-* Представления (views.py): Обработка запросов и управление логикой приложения.
-* Шаблоны (templates): HTML-шаблоны для отображения списка задач, деталей задачи, формы редактирования и подтверждения удаления.
-* База данных (tasks.db): SQLite база данных для хранения задач.
+* app.py: Основной файл приложения, содержащий настройки, модели и представления.
+* templates/: Папка с HTML-шаблонами для отображения списка задач, деталей задачи, формы редактирования и подтверждения удаления.
 
 ### *Детали реализации*
-* Модели (models.py)
-```python
 
+*Модели:* 
+```python
+class Task(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    completed = db.Column(db.Boolean, default=False)
+
+    def __repr__(self):
+        return f'<Task {self.title}>'
 ```
 Модель Task содержит следующие поля:
 * id: Уникальный идентификатор задачи (Integer, primary_key).
@@ -233,64 +240,139 @@ admin.site.register(Article, ArticleAdmin)
 * description: Описание задачи (Text).
 * completed: Флаг завершения задачи (Boolean, default=False).
 
-Представления (views.py)
-task_list: Отображает список всех задач.
+*Представления*
 
-task_detail: Отображает детали конкретной задачи.
+Все представления находятся в файле app.py:
+* task_list: Отображает список всех задач.
+```python
+@app.route('/')
+def task_list():
+    tasks = Task.query.all()
+    return render_template('task_list.html', tasks=tasks)
+```
+* task_detail: Отображает детали конкретной задачи.
+```python
+@app.route('/task/<int:task_id>')
+def task_detail(task_id):
+    task = Task.query.get_or_404(task_id)
+    return render_template('task_detail.html', task=task)
+```
+* task_new: Создает новую задачу.
+```python
+@app.route('/task/new', methods=['GET', 'POST'])
+def task_new():
+    if request.method == 'POST':
+        title = request.form['title']
+        description = request.form['description']
+        completed = 'completed' in request.form
+        new_task = Task(title=title, description=description, completed=completed)
+        db.session.add(new_task)
+        db.session.commit()
+        return redirect(url_for('task_detail', task_id=new_task.id))
+    return render_template('task_edit.html')
+```
+* task_edit: Редактирует существующую задачу.
+```python
+@app.route('/task/<int:task_id>/edit', methods=['GET', 'POST'])
+def task_edit(task_id):
+    task = Task.query.get_or_404(task_id)
+    if request.method == 'POST':
+        task.title = request.form['title']
+        task.description = request.form['description']
+        task.completed = 'completed' in request.form
+        db.session.commit()
+        return redirect(url_for('task_detail', task_id=task.id))
+    return render_template('task_edit.html', task=task)
+```
+* task_complete: Переключает статус завершения задачи.
+```python
+@app.route('/task/<int:task_id>/complete', methods=['POST'])
+def task_complete(task_id):
+    task = Task.query.get_or_404(task_id)
+    task.completed = not task.completed
+    db.session.commit()
+    return redirect(url_for('task_detail', task_id=task.id))
+```
+* task_delete: Удаляет задачу после подтверждения.
+```python
+@app.route('/task/<int:task_id>/delete', methods=['POST'])
+def task_delete(task_id):
+    task = Task.query.get_or_404(task_id)
+    db.session.delete(task)
+    db.session.commit()
+    return redirect(url_for('task_list'))
+```
 
-task_new: Создает новую задачу.
+*Шаблоны*
 
-task_edit: Редактирует существующую задачу.
-
-task_complete: Переключает статус завершения задачи.
-
-task_delete: Удаляет задачу после подтверждения.
-
-Шаблоны (templates)
 task_list.html: Отображает список всех задач.
+```html
+    <h1>Список задач</h1>
+    <a href="{{ url_for('task_new') }}">Новая задача</a>
+    <ul>
+        {% for task in tasks %}
+            <li>
+                <a href="{{ url_for('task_detail', task_id=task.id) }}">{{ task.title }}</a>
+                <a href="{{ url_for('task_edit', task_id=task.id) }}">Редактировать</a>
+                <form action="{{ url_for('task_complete', task_id=task.id) }}" method="POST" style="display:inline;">
+                    <label for="completed_{{ task.id }}">Выполнено:</label>
+                    <input type="checkbox" id="completed_{{ task.id }}" name="completed" onchange="this.form.submit()" {{ 'checked' if task.completed else '' }}>
+                </form>
+                <form action="{{ url_for('task_delete', task_id=task.id) }}" method="POST" style="display:inline;">
+                    <button type="submit">Удалить</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
 
+```
 task_detail.html: Отображает детали конкретной задачи.
-
+```html
+    <h1>{{ task.title }}</h1>
+    <p>{{ task.description }}</p>
+    <form action="{{ url_for('task_complete', task_id=task.id) }}" method="POST" style="display:inline;">
+        <label for="completed">Выполнено:</label>
+        <input type="checkbox" id="completed" name="completed" onchange="this.form.submit()" {{ 'checked' if task.completed else '' }}>
+    </form>
+    <a href="{{ url_for('task_edit', task_id=task.id) }}">Редактировать</a>
+    <form action="{{ url_for('task_delete', task_id=task.id) }}" method="POST" style="display:inline;">
+        <button type="submit">Удалить</button>
+    </form>
+    <a href="{{ url_for('task_list') }}">Вернуться к списку</a>
+```
 task_edit.html: Форма для создания и редактирования задач.
+```html
+    <h1>Редактировать задачу</h1>
+    <form method="POST">
+        <label for="title">Заголовок:</label>
+        <input type="text" id="title" name="title" value="{{ task.title if task else '' }}" required><br><br>
+        <label for="description">Описание:</label>
+        <textarea id="description" name="description" required>{{ task.description if task else '' }}</textarea><br><br>
+        <label for="completed">Выполнено:</label>
+        <input type="checkbox" id="completed" name="completed" {{ 'checked' if task and task.completed else '' }}><br><br>
+        <button type="submit">Сохранить</button>
+    </form>
+    <a href="{{ url_for('task_list') }}">Вернуться к списку</a>
+```
 
-База данных (tasks.db)
+*База данных*
+
 База данных SQLite используется для хранения задач. При запуске приложения создается файл tasks.db, если он не существует.
 
-Установка и запуск
-Установите зависимости:
+### *Примеры работы*
 
-bash
-Copy code
-pip install Flask Flask-SQLAlchemy
-Запустите приложение:
+Список задач: Отображает список всех задач.
 
-bash
-Copy code
-python app.py
-Откройте браузер и перейдите по адресу http://127.0.0.1:5000/ для просмотра списка задач.
+![img_5.PNG](img_5.PNG)
 
-Примеры работы
-Список задач
-Список задач
+Детали задачи: Отображает детали конкретной задачи.
 
-Детали задачи
-Детали задачи
+![img_6.PNG](img_6.PNG)
 
-Форма редактирования задачи
-Форма редактирования задачи
+Форма редактирования задачи: Форма для создания и редактирования задач.
 
-Форма подтверждения удаления задачи
-Форма подтверждения удаления задачи
+![img_7.PNG](img_7.PNG)
 
-Личный кабинет
-Для добавления функционала личного кабинета можно использовать встроенные механизмы аутентификации Flask. Создайте представления и шаблоны для регистрации, входа и управления профилем пользователя.
-
-Презентабельный и удобный интерфейс
-Для улучшения пользовательского опыта можно использовать современные фронтенд-технологии и фреймворки, такие как Bootstrap или Tailwind CSS. Добавьте стили и JavaScript для улучшения внешнего вида и функциональности интерфейса.
-
-Автор: Вереин Михаил Павлович
-
-Контактная информация: [email protected]
 
 * [FastAPI](https://github.com/mixupp83/graduateWork/tree/master/graduate_fastapi)
   * Описание проекта: 
