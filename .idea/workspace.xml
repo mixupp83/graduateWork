@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0766e28a-9953-4d85-8c2c-329e819e3c3a" name="Changes" comment=".">
-      <change afterPath="$PROJECT_DIR$/graduate_fastapi/app/templates/book_add.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/graduate_fastapi/app/templates/book_detail.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/graduate_fastapi/app/templates/books_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graduate_fastapi/app/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/graduate_fastapi/app/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graduate_fastapi/app/templates/books.html" beforeDir="false" afterPath="$PROJECT_DIR$/graduate_fastapi/app/templates/books.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graduate_fastapi/library.db" beforeDir="false" afterPath="$PROJECT_DIR$/graduate_fastapi/library.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graduate_flask/graduate_project/instance/tasks.db" beforeDir="false" afterPath="$PROJECT_DIR$/graduate_flask/graduate_project/instance/tasks.db" afterDir="false" />
-    </list>
+    <list default="true" id="0766e28a-9953-4d85-8c2c-329e819e3c3a" name="Changes" comment="." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -190,7 +181,15 @@
       <option name="project" value="LOCAL" />
       <updated>1724008559584</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary=".">
+      <option name="closed" value="true" />
+      <created>1725368389483</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1725368389483</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
