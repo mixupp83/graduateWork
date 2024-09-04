@@ -563,12 +563,12 @@ Django подходит для крупных проектов с большим
 Flask идеально подходит для небольших и средних проектов, где требуется гибкость и простота.
 FastAPI отлично подходит для разработки API с высокой производительностью и асинхронными задачами.
 
-__6. Заключение__
+## __6. Заключение__
 
 В данной дипломной работе было проведено сравнение трех популярных Python-фреймворков: Django, Flask и FastAPI. Каждый из них имеет свои преимущества и подходит для различных типов проектов.
 Выбор фреймворка зависит от конкретных требований проекта, его масштаба и специфики. Например мы можем использовать FastAPI из-за его высокой производительности при разработке API, Flask можно использовать для создания малых и средних проектов с большой гибкостью, а Django — для создания многофункциональных крупномасштабных приложений.
 
-__7. Список литературы__
+## __7. Список литературы__
 
 * [Django Documentation.](https://docs.djangoproject.com/)
 * [Flask Documentation.](https://flask.palletsprojects.com/)
@@ -576,8 +576,9 @@ __7. Список литературы__
 * "Django vs Flask vs FastAPI: A Comprehensive Comparison" - Blog post by Towards Data Science.
 * "Choosing the Right Python Web Framework" - Article by Real Python.
 
-__Приложение:__
+## __Приложение:__
 
-Исходный код разработанных приложений на [Django](https://github.com/mixupp83/graduateWork/tree/master/graduate_django/graduate_project),
+Исходный код разработанных приложений на 
+[Django](https://github.com/mixupp83/graduateWork/tree/master/graduate_django/graduate_project),
 [Flask](https://github.com/mixupp83/graduateWork/tree/master/graduate_flask) и 
 [FastAPI](https://github.com/mixupp83/graduateWork/tree/master/graduate_fastapi)
