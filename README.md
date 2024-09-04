@@ -375,12 +375,178 @@ task_edit.html: Форма для создания и редактировани
 
 
 * [FastAPI](https://github.com/mixupp83/graduateWork/tree/master/graduate_fastapi)
-  * Описание проекта: 
-    * Создание простого API для управления книгами в библиотеке.
-  * Технические детали:
-    * Использование FastAPI для создания маршрутов и обработки запросов.
-    * Работа с базой данных через SQLAlchemy.
-    * Использование Pydantic для валидации данных.
+### *Описание проекта:* 
+Проект представляет собой простое веб-приложение на FastAPI для управления библиотекой книг с использованием SQLAlchemy 
+в качестве ORM и SQLite в качестве базы данных:
+
+Структура проекта
+* database.py: Настройка подключения к базе данных SQLite и создание сессий.
+* main.py: Основной файл приложения, содержащий маршруты и логику работы с базой данных.
+* models.py: Определение моделей SQLAlchemy для таблиц базы данных.
+* schemas.py: Определение схем Pydantic для валидации данных.
+* templates/: Папка с HTML-шаблонами для отображения интерфейса пользователя.
+
+### *Детали реализации*
+
+*database.py*
+```python
+SQLALCHEMY_DATABASE_URL = "sqlite:///./library.db"
+
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+Base = declarative_base()
+```
+Настраивает подключение к базе данных SQLite и создает сессии для взаимодействия с базой данных:
+
+*main.py*
+```python
+models.Base.metadata.create_all(bind=engine)
+
+app = FastAPI()
+
+templates = Jinja2Templates(directory="app/templates")
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+@app.get("/books/", response_class=HTMLResponse)
+def read_books(request: Request, skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    books = db.query(models.Book).offset(skip).limit(limit).all()
+    return templates.TemplateResponse("books_list.html", {"request": request, "books": books})
+
+@app.get("/books/{book_id}", response_class=HTMLResponse)
+def read_book(request: Request, book_id: int, db: Session = Depends(get_db)):
+    book = db.query(models.Book).filter(models.Book.id == book_id).first()
+    if book is None:
+        raise HTTPException(status_code=404, detail="Book not found")
+    return templates.TemplateResponse("book_detail.html", {"request": request, "book": book})
+
+@app.get("/books/add", response_class=HTMLResponse)
+def add_book_form(request: Request):
+    return templates.TemplateResponse("book_add.html", {"request": request})
+
+@app.post("/books/", response_class=HTMLResponse)
+def create_book(request: Request, title: str = Form(...), author: str = Form(...), description: str = Form(...), db: Session = Depends(get_db)):
+    book = schemas.BookCreate(title=title, author=author, description=description)
+    db_book = models.Book(**book.dict())
+    db.add(db_book)
+    db.commit()
+    db.refresh(db_book)
+    return templates.TemplateResponse("book_detail.html", {"request": request, "book": db_book})
+
+```
+Содержит основную логику приложения, включая маршруты и взаимодействие с базой данных:
+
+*models.py*
+```python
+class Book(Base):
+    __tablename__ = "books"
+
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String, index=True)
+    author = Column(String, index=True)
+    description = Column(String, index=True)
+
+```
+Определяет модели SQLAlchemy для таблиц базы данных:
+
+*schemas.py*
+
+```python
+class BookBase(BaseModel):
+    title: str
+    author: str
+    description: str
+
+class BookCreate(BookBase):
+    pass
+
+class Book(BookBase):
+    id: int
+
+    class Config:
+        from_attributes = True
+
+```
+Определяет схемы Pydantic для валидации данных:
+
+*Шаблоны*
+
+Папка templates/ содержит HTML-шаблоны для отображения интерфейса пользователя:
+
+* books_list.html: Шаблон для отображения списка книг.
+```html
+    <h1>Список книг</h1>
+    <ul>
+        {% for book in books %}
+            <li>
+                <a href="/books/{{ book.id }}">{{ book.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Добавить новую книгу</h2>
+    <form action="/books/" method="post">
+        <label for="title">Название:</label>
+        <input type="text" id="title" name="title" required><br>
+        <label for="author">Автор:</label>
+        <input type="text" id="author" name="author" required><br>
+        <label for="description">Описание:</label>
+        <input type="text" id="description" name="description" required><br>
+        <button type="submit">Добавить книгу</button>
+    </form>
+```
+* book_detail.html: Шаблон для отображения деталей конкретной книги.
+```html
+    <h1>{{ book.title }}</h1>
+    <p>Автор: {{ book.author }}</p>
+    <p>Описание: {{ book.description }}</p>
+    <a href="/books/">Вернуться к списку книг</a>
+```
+* book_add.html: Шаблон для добавления новой книги.
+```html
+    <h1>Добавить новую книгу</h1>
+    <form action="/books/" method="post">
+        <label for="title">Название:</label>
+        <input type="text" id="title" name="title" required><br>
+        <label for="author">Автор:</label>
+        <input type="text" id="author" name="author" required><br>
+        <label for="description">Описание:</label>
+        <input type="text" id="description" name="description" required><br>
+        <button type="submit">Добавить книгу</button>
+    </form>
+    <a href="/books/">Вернуться к списку книг</a>
+```
+
+### *Примеры работы*
+
+Список книг: Отображает список всех книг.
+
+Детали книги: Отображает детали конкретной книги.
+
+Форма добавления книги: Форма для добавления новой книги.
+
+Личный кабинет
+Для добавления функционала личного кабинета можно использовать встроенные механизмы аутентификации FastAPI. Создайте представления и шаблоны для регистрации, входа и управления профилем пользователя.
+
+Презентабельный и удобный интерфейс
+Для улучшения пользовательского опыта можно использовать современные фронтенд-технологии и фреймворки, такие как Bootstrap или Tailwind CSS. Добавьте стили и JavaScript для улучшения внешнего вида и функциональности интерфейса.
+
+Автор
+Автор: Вереин Михаил Павлович
+
+Контактная информация: [email protected]
+
+
+
+
 
 __5. Сравнение фреймворков__
 
