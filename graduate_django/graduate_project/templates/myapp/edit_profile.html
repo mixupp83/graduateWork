@@ -1,0 +1,11 @@
+{% extends 'myapp/base.html' %}
+{% block title %}Редактировать профиль{% endblock %}
+{% block content %}
+    <h2>Редактировать профиль</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+    </form>
+    <a href="{% url 'profile' %}">Вернуться к профилю</a>
+{% endblock %}

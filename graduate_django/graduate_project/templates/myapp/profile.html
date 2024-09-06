@@ -1,0 +1,9 @@
+{% extends 'myapp/base.html' %}
+{% block title %}Профиль{% endblock %}
+{% block content %}
+    <h2>Профиль пользователя {{ profile.user.username }}</h2>
+    <p>Биография: {{ profile.bio }}</p>
+    <p>Местоположение: {{ profile.location }}</p>
+    <p>Дата рождения: {{ profile.birth_date }}</p>
+    <a href="{% url 'edit_profile' %}">Редактировать профиль</a>
+{% endblock %}

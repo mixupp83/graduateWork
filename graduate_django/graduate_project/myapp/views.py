@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Article
-from .forms import ArticleForm
+from django.contrib.auth.decorators import login_required
+from .models import Article, Profile
+from .forms import ArticleForm, ProfileForm
 
 def article_list(request):
     articles = Article.objects.all()
@@ -39,3 +40,18 @@ def article_delete(request, pk):
         article.delete()
         return redirect('article_list')
     return render(request, 'myapp/article_confirm_delete.html', {'article': article})
+
+@login_required
+def profile(request):
+    return render(request, 'myapp/profile.html', {'profile': request.user.profile})
+
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = ProfileForm(instance=request.user.profile)
+    return render(request, 'myapp/edit_profile.html', {'form': form})
