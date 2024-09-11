@@ -1,20 +1,14 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ task.title }}</title>
-</head>
-<body>
-    <h1>{{ task.title }}</h1>
-    <p>{{ task.description }}</p>
-    <form action="{{ url_for('task_complete', task_id=task.id) }}" method="POST" style="display:inline;">
-        <label for="completed">Выполнено:</label>
-        <input type="checkbox" id="completed" name="completed" onchange="this.form.submit()" {{ 'checked' if task.completed else '' }}>
-    </form>
-    <a href="{{ url_for('task_edit', task_id=task.id) }}">Редактировать</a>
-    <form action="{{ url_for('task_delete', task_id=task.id) }}" method="POST" style="display:inline;">
-        <button type="submit">Удалить</button>
-    </form>
-    <a href="{{ url_for('task_list') }}">Вернуться к списку</a>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ task.title }}</h1>
+<p>{{ task.description }}</p>
+<p>Статус: <span class="badge badge-{{ 'success' if task.completed else 'secondary' }}">{{ 'Выполнено' if task.completed else 'Не выполнено' }}</span></p>
+<a href="{{ url_for('task_edit', task_id=task.id) }}" class="btn btn-primary">Редактировать</a>
+<form action="{{ url_for('task_complete', task_id=task.id) }}" method="post" style="display:inline;">
+    <button type="submit" class="btn btn-success">Завершить</button>
+</form>
+<form action="{{ url_for('task_delete', task_id=task.id) }}" method="post" style="display:inline;">
+    <button type="submit" class="btn btn-danger">Удалить</button>
+</form>
+{% endblock %}

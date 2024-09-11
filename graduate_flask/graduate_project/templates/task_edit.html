@@ -1,20 +1,20 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Редактировать задачу</title>
-</head>
-<body>
-    <h1>Редактировать задачу</h1>
-    <form method="POST">
-        <label for="title">Заголовок:</label>
-        <input type="text" id="title" name="title" value="{{ task.title if task else '' }}" required><br><br>
-        <label for="description">Описание:</label>
-        <textarea id="description" name="description" required>{{ task.description if task else '' }}</textarea><br><br>
-        <label for="completed">Выполнено:</label>
-        <input type="checkbox" id="completed" name="completed" {{ 'checked' if task and task.completed else '' }}><br><br>
-        <button type="submit">Сохранить</button>
-    </form>
-    <a href="{{ url_for('task_list') }}">Вернуться к списку</a>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ 'Новая задача' if not task else 'Редактировать задачу' }}</h1>
+<form method="post">
+    <div class="form-group">
+        <label for="title">Заголовок</label>
+        <input type="text" class="form-control" id="title" name="title" value="{{ task.title if task else '' }}" required>
+    </div>
+    <div class="form-group">
+        <label for="description">Описание</label>
+        <textarea class="form-control" id="description" name="description" rows="3" required>{{ task.description if task else '' }}</textarea>
+    </div>
+    <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="completed" name="completed" {{ 'checked' if task and task.completed else '' }}>
+        <label class="form-check-label" for="completed">Выполнено</label>
+    </div>
+    <button type="submit" class="btn btn-primary">{{ 'Создать' if not task else 'Обновить' }}</button>
+</form>
+{% endblock %}
