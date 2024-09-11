@@ -23,10 +23,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',  # Добавьте это
-    'allauth',  # Добавьте это
-    'allauth.account',  # Добавьте это
-    'allauth.socialaccount',  # Добавьте это
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
     'myapp',
 ]
 
